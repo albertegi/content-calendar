@@ -1,6 +1,7 @@
 package com.alvirg.content_calendar.controller;
 
 import com.alvirg.content_calendar.model.Content;
+import com.alvirg.content_calendar.model.Status;
 import com.alvirg.content_calendar.repository.ContentCollectionRepository;
 import com.alvirg.content_calendar.repository.ContentJdbcTemplateRepository;
 import com.alvirg.content_calendar.repository.ContentRepository;
@@ -64,9 +65,14 @@ public class ContentController {
         repository.deleteById(id);
     }
 
-    @GetMapping("/filter{keyword}")
+    @GetMapping("/filter/{keyword}")
     public List<Content> findByTitle(@PathVariable String keyword){
         return repository.findAllByTitleContains(keyword);
+    }
+
+    @GetMapping("/filter/status/{status}")
+    public List<Content> findByStatus(@PathVariable Status status){
+        return repository.listByStatus(status);
     }
 
 
