@@ -2,6 +2,8 @@ package com.alvirg.content_calendar.controller;
 
 import com.alvirg.content_calendar.model.Content;
 import com.alvirg.content_calendar.repository.ContentCollectionRepository;
+import com.alvirg.content_calendar.repository.ContentJdbcTemplateRepository;
+import com.alvirg.content_calendar.repository.ContentRepository;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -14,10 +16,11 @@ import java.util.Optional;
 @RequestMapping("/api/content")
 public class ContentController {
 
-    private final ContentCollectionRepository repository;
+    private final ContentRepository repository;
 
-    public ContentController(ContentCollectionRepository contentCollectionRepository) {
-        this.repository = contentCollectionRepository;
+
+    public ContentController(ContentRepository repository) {
+        this.repository = repository;
     }
 
     // Make a request and find all the pieces of content in the system
@@ -48,7 +51,7 @@ public class ContentController {
 
         //make sure the id exist
         //You can create a custom exception to handle the error
-        if(!repository.existById(id)){
+        if(!repository.existsById(id)){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Content not found!");
         }
 
@@ -58,7 +61,12 @@ public class ContentController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Integer id){
-        repository.delete(id);
+        repository.deleteById(id);
+    }
+
+    @GetMapping("/filter{keyword}")
+    public List<Content> findByTitle(@PathVariable String keyword){
+        return repository.findAllByTitleContains(keyword);
     }
 
 

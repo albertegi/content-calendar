@@ -10,14 +10,13 @@ POST http://localhost:8080/api/content
 Content-Type: application/json
 
 {
-  "id": 2,
   "title": "My Second Blog Post",
   "description": "This is my Second blog post",
   "status": "IDEA",
   "contentType": "ARTICLE",
   "dateCreated": "2025-05-22T22:42:28.187442",
-  "dateUpdated": null,
-  "url": ""
+  "dateUpdated": "2025-05-22T22:42:28.187442",
+  "url": "http://localhost:8080/my-first-blog-post"
 }
 
 ### Update existing Content
